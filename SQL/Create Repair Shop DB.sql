@@ -6,7 +6,7 @@ CREATE TABLE Customer (
     FirstName VARCHAR(30) NOT NULL,
     LastName VARCHAR(30) NOT NULL,
     Phone VARCHAR(15) NOT NULL CHECK (CHAR_LENGTH(Phone) = 10 AND Phone REGEXP '^[0-9]+$'),
-    Email VARCHAR(100) UNIQUE
+    Email VARCHAR(100)
 );
 
 -- Table: Car
