@@ -9,6 +9,7 @@ CREATE TABLE Customer (
     Email VARCHAR(100)
 );
 
+
 -- Table: Car
 CREATE TABLE Car (
     CarID SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -49,3 +50,23 @@ CREATE TABLE CarService (
     FOREIGN KEY (ServiceID) REFERENCES Service(ServiceID),
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
+
+
+DELIMITER $$
+
+CREATE PROCEDURE AssignRandomActiveEmployee()
+BEGIN
+    DECLARE total_active_employees INT;
+    DECLARE random_index INT;
+
+    SELECT COUNT(*) INTO total_active_employees FROM Employee WHERE EndDate IS NULL;
+
+    IF total_active_employees > 0 THEN
+        SET random_index = FLOOR(RAND() * total_active_employees);
+        SET @employee_id = (SELECT EmployeeID FROM Employee WHERE EndDate IS NULL LIMIT random_index, 1);
+    ELSE
+        SET @employee_id = NULL;
+    END IF;
+END$$
+
+DELIMITER ;
